@@ -21,3 +21,15 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# IDE settings
+.idea/
+.vscode/
+
+# OS files
+Thumbs.db
+*.swp
+
+# Misc generated files
+*.log
+
