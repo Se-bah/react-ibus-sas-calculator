@@ -19,16 +19,40 @@ function App() {
             <h1>IBUS-SAS Calculator</h1>
 
             <label>BWT (mm):</label>
-            <input type="number" value={bwt} onChange={(e) => setBwt(e.target.value)} />
+            <select value ={bwt} onChange={(e) => setBwt(e.target.value)}>
+                <option value="">Select</option>
+                <option value="1">1 mm</option>
+                <option value="2">2 mm</option>
+                <option value="3">3 mm</option>
+                <option value="4">4 mm</option>
+                <option value="5">5 mm</option>
+            </select>
 
             <label>i-fat (0–2):</label>
-            <input type="number" value={ifat} onChange={(e) => setIfat(e.target.value)} />
+            <select value={ifat} onChange={(e) => setIfat(e.target.value)}>
+                <option value="">Select</option>
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+            </select>
 
             <label>CDS (0–3):</label>
-            <input type="number" value={cds} onChange={(e) => setCds(e.target.value)} />
+            <select value={cds} onChange={(e) => setCds(e.target.value)}>
+                <option value="">Select</option>
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select>
 
             <label>BWS (0–3):</label>
-            <input type="number" value={bws} onChange={(e) => setBws(e.target.value)} />
+             <select value={bws} onChange={(e) => setBws(e.target.value)}>
+                 <option value="">Select</option>
+                 <option value="0">0</option>
+                 <option value="1">1</option>
+                 <option value="2">2</option>
+                 <option value="3">3</option>
+             </select>
 
             <button onClick={calculateScore}>Calculate</button>
 
