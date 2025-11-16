@@ -36,3 +36,18 @@
     transform: rotate(360deg);
   }
 }
+
+.question-block {
+    margin-bottom: 1rem;
+}
+
+.question-block label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.question-block select {
+    width: 150px;
+    padding: 0.25rem;
+}

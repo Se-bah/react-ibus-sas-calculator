@@ -18,6 +18,7 @@ function App() {
         <div className="App">
             <h1>IBUS-SAS Calculator</h1>
 
+            <div className="question-block">
             <label>BWT (mm):</label>
             <select value ={bwt} onChange={(e) => setBwt(e.target.value)}>
                 <option value="">Select</option>
@@ -27,7 +28,9 @@ function App() {
                 <option value="4">4 mm</option>
                 <option value="5">5 mm</option>
             </select>
+            </div>
 
+            <div className="question-block">
             <label>i-fat (0–2):</label>
             <select value={ifat} onChange={(e) => setIfat(e.target.value)}>
                 <option value="">Select</option>
@@ -35,7 +38,9 @@ function App() {
                 <option value="1">1</option>
                 <option value="2">2</option>
             </select>
+            </div>
 
+            <div className="question-block">
             <label>CDS (0–3):</label>
             <select value={cds} onChange={(e) => setCds(e.target.value)}>
                 <option value="">Select</option>
@@ -44,7 +49,9 @@ function App() {
                 <option value="2">2</option>
                 <option value="3">3</option>
             </select>
+            </div>
 
+            <div className="question-block">
             <label>BWS (0–3):</label>
              <select value={bws} onChange={(e) => setBws(e.target.value)}>
                  <option value="">Select</option>
@@ -53,6 +60,7 @@ function App() {
                  <option value="2">2</option>
                  <option value="3">3</option>
              </select>
+            </div>
 
             <button onClick={calculateScore}>Calculate</button>
 
