@@ -38,7 +38,7 @@
 }
 
 .question-block {
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
 }
 
 .question-block label {
@@ -47,7 +47,21 @@
     margin-bottom: 0.25rem;
 }
 
+.question-block input,
 .question-block select {
-    width: 150px;
+    width: 400px;
     padding: 0.25rem;
+    margin-bottom: 0.25rem;
+}
+
+.help-text {
+    font-size: 0.8rem;
+    color: #666;
+    margin: 0;
+}
+
+button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    margin-top: 1rem;
 }
