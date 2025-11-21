@@ -5,17 +5,38 @@ A simple offline-ready Progressive Web App (PWA) for calculating the IBUS-SAS sc
 ## 🔧 Features
 
 - Fully offline and installable (PWA)
+- Local-first: no internet connection needed after first load
 - Input fields: BWT, i-fat, CDS, BWS
-- Automatic score calculation
-- Responsive UI
+- Automatic score calculation based on IBUS-SAS scoring
+- Works on Desktop
 - Built with React 18, Yarn, and Create React App (PWA template)
+
+---
 
 ## 📦 Tech Stack
 
 - React 18
 - Yarn (package manager)
-- Create React App (PWA template)
-- Service Worker & Manifest API
+- Create React App (with cra-template-pwa)
+- Service Worker & Web App Manifest API
+
+---
+
+## ⚙️ Prerequisites
+
+Ensure the following are installed:
+
+- Node.js (≥ 18.x)
+- Yarn (preferred):  
+  Install via
+  ```bash
+  npm install --global yarn
+  ```
+- Git (for version control)
+- Chrome / Brave (to test PWA install & offline mode)
+
+---
+
 
 ## 🚀 Getting Started
 
@@ -46,29 +67,70 @@ The app will open at [http://localhost:3000](http://localhost:3000).
 
 ---
 
-## 🛠 Build for Production (with PWA)
+## 🛠 Production Build & Offline Mode
 
-To create a production-ready, installable PWA:
+To create a fully working offline PWA:
 
-```bash
-  yarn build
+1. Build the app:
+
+   ```bash
+   yarn build
+   ```
+
+2. Serve the production build locally (to test PWA):
+
+   ```bash
+   yarn global add serve
+   serve -s build
+   ```
+>Note: There might be permission issues. If that happens, redo this step with 
+> `sudo yarn global add serve` and `serve -s build`
+
+3. Open in your browser (Chrome/Brave):
+
+   ```
+   http://localhost:3000
+   ```
+
+   ✔️ The app will register a service worker and cache necessary files  
+   ✔️ It will now work offline (after first full load)
+
+---
+
+## 📱 Install as PWA
+
+1. Visit the running app in Chrome or Brave
+2. You should see an “Install” button in the address bar
+3. Click it — the app installs like a native application
+
+→ You can now open it from your desktop/home screen  
+→ It launches in standalone window (not inside browser tab)
+
+---
+
+## ⚙️ Service Worker Behavior
+
+The app uses a service worker (via CRA) for offline caching.
+
+- When a new version is deployed, the service worker:
+    - fetches new files in background,
+    - triggers an update notification:
+
+      ```
+      "A new version is available. Would you like to refresh?"
+      ```
+
+- If user confirms, the app immediately reloads with the new version (`skipWaiting()` is called)
+
+This logic is configured in:
+```js
+src/index.js → serviceWorkerRegistration.register({ onUpdate: ... })
 ```
+>Note: For development and to avoid caching issues, change ```serviceWorkerRegistration.register()```
+> to ```serviceWorkerRegistration.unregister()```
 
-To test the production version locally:
-
-```bash
-  yarn global add serve
-  serve -s build
-```
-if there is an error with permissions, try:
-
-```bash
-  sudo yarn global add serve
-  serve -s build
-```
-
-Then open the app at [http://localhost:3000](http://localhost:3000).  
-The service worker will register, and the app will work offline after first load.
+ℹ️ For more info on CRA’s service worker:  
+https://create-react-app.dev/docs/making-a-progressive-web-app
 
 ---
 
@@ -114,6 +176,7 @@ Where:
 - [ ] Add result saving to database
 - [ ] UI enhancements
 - [ ] Enable Light/Dark mode
+- [ ] Test app working on tablet and mobile
 
 ---
 

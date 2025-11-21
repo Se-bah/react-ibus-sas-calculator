@@ -15,7 +15,7 @@ root.render(
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://cra.link/PWA
-// 🔥 SPREMEMBA: omogoči PWA + obvestilo o novi verziji
+// SPREMEMBA: omogoči PWA + obvestilo o novi verziji
 serviceWorkerRegistration.register({
     onUpdate: (registration) => {
         const userWantsRefresh = window.confirm(
