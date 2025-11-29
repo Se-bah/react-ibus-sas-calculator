@@ -107,3 +107,28 @@ body {
     font-size: 1.2rem;
     color: var(--accent);
 }
+
+/* Error state for inputs/selects */
+.input-error {
+    border: 2px solid #d9534f !important;
+    background-color: #ffe6e6;
+}
+
+/* Dark mode override for error styles */
+[data-theme="dark"] .input-error {
+    border-color: #ff7676 !important;
+    background-color: rgba(255, 50, 50, 0.15);
+}
+
+/* Error text styling */
+.error-text {
+    font-size: 0.8rem;
+    color: #d9534f;
+    margin-top: 0.3rem;
+    margin-bottom: 0.3rem;
+}
+
+/* Dark mode error text */
+[data-theme="dark"] .error-text {
+    color: #ff8c8c;
+}
