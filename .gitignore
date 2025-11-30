@@ -11,6 +11,11 @@
 # production
 /build
 
+# Electron builds
+/dist
+/dist-e
+/dist-*
+
 # misc
 .DS_Store
 .env.local
