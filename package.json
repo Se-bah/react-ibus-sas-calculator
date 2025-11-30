@@ -2,6 +2,8 @@
   "name": "react-ibus-sas-calculator",
   "version": "0.1.0",
   "private": true,
+  "homepage": "./",
+  "main": "main.js",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^13.0.0",
@@ -26,8 +28,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "electron:start": "electron .",
+    "package": "yarn build && electron-builder"
   },
   "eslintConfig": {
     "extends": [
@@ -46,5 +48,28 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "electron": "^39.2.4",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "extends": null,
+    "appId": "com.ibus.sas.calculator",
+    "productName": "IBUS-SAS Calculator",
+    "files": [
+      "build/**/*",
+      "main.js",
+      "public/Ibus-Sas-Calculator.png"
+    ],
+    "directories": {
+      "buildResources": "public"
+    },
+    "linux": {
+      "icon": "public/Ibus-Sas-Calculator.png",
+      "target": [
+        "AppImage"
+      ]
+    }
   }
 }

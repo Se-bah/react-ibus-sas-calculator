@@ -16,7 +16,7 @@ root.render(
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://cra.link/PWA
 // SPREMEMBA: omogoči PWA + obvestilo o novi verziji
-serviceWorkerRegistration.register({
+serviceWorkerRegistration.unregister({
     onUpdate: (registration) => {
         const userWantsRefresh = window.confirm(
             "Na voljo je nova različica aplikacije. Želite osvežiti?"
