@@ -1,5 +1,3 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
 # dependencies
 /node_modules
 /.pnp
@@ -8,33 +6,34 @@
 # testing
 /coverage
 
-# production
+# production builds
 /build
-
-# Electron builds
 /dist
-/dist-e
 /dist-*
+/out
+/*.AppImage
+/*.exe
+/*.dmg
+*.asar
 
 # misc
-.DS_Store
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
+# logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+*.log
 
 # IDE settings
 .idea/
 .vscode/
-
-# OS files
-Thumbs.db
 *.swp
 
-# Misc generated files
-*.log
+# OS files
+.DS_Store
+Thumbs.db
 
