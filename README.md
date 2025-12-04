@@ -2,14 +2,20 @@
 
 A simple offline-ready Progressive Web App (PWA) for calculating the IBUS-SAS score in bowel ultrasound assessments.
 
+This project includes:
+- a browser Progressive Web App (PWA)
+- a desktop application for Linux (.AppImage)
+- a desktop application for Windows (.exe)
+- a shared React codebase
+
 ## 🔧 Features
 
-- Fully offline and installable (PWA)
-- Local-first: no internet connection needed after first load
+- Fully offline PWA (works after first load)
+- Light and dark mode
+- Input validation and clean UI
 - Input fields: BWT, i-fat, CDS, BWS
 - Automatic score calculation based on IBUS-SAS scoring
-- Works on Desktop
-- Built with React 18, Yarn, and Create React App (PWA template)
+- Electron desktop builds for Linux and Windows
 
 ---
 
@@ -18,6 +24,7 @@ A simple offline-ready Progressive Web App (PWA) for calculating the IBUS-SAS sc
 - React 18
 - Yarn (package manager)
 - Create React App (with cra-template-pwa)
+- Electron (desktop packaging)
 - Service Worker & Web App Manifest API
 
 ---
@@ -101,9 +108,10 @@ To create a fully working offline PWA:
 
 1. Visit the running app in Chrome or Brave
 2. You should see an “Install” button in the address bar
-3. Click it — the app installs like a native application
+3. Click it — the app installs like a desktop application 
 
-→ You can now open it from your desktop/home screen  
+→ Works fully offline   
+→ You can now open it from your desktop/home screen     
 → It launches in standalone window (not inside browser tab)
 
 ---
@@ -133,7 +141,42 @@ src/index.js → serviceWorkerRegistration.register({ onUpdate: ... })
 https://create-react-app.dev/docs/making-a-progressive-web-app
 
 ---
+## Desktop App Builds (Linux and Windows)
+**This project uses Electron to generate standalone desktop apps.**
+### Build Linux AppImage
+Run
+```
+yarn elevtron:build
+```
+The output will be inside the dist/folder: `IBUS-SAS Calculator-x.x.x.AppImage  ` 
+To run the AppImage on Linux:   
+1. Right-click → Properties → Permissions   
+2. Check "Allow executing file as program"
+3. Double-click to launch the app
 
+
+### Build Windows .exe installer
+If you are building on Windows:
+```
+yarn elevtron:build
+```
+If you are building on Linux: 
+```
+sudo apt install wine nsis
+yarn electron:build --win
+```
+This output will appear in `dist/IBUS-SAS Calculator Setup.exe`
+
+#### Testing the windows .exe
+Option A: Test on a real Windows PC (recommended)   
+Option B: Test via Vine:
+```
+wine "IBUS-SAS Calculator Setup.exe"
+```
+Option C: Test inside Windows Virtual Machine
+
+
+---
 ## 💡 IBUS-SAS Score Formula
 
 ```
@@ -146,13 +189,8 @@ Where:
 - CDS = Color Doppler Signal (0–3)
 - BWS = Bowel Wall Stratification (0–3)
 
----
+All scoring logic is implemented inside `App.js`
 
-## 📱 Install as App
-
-- Open the app in Chrome or Brave
-- Click “Add to Home Screen” (mobile) or install icon (desktop)
-- App will be available offline after first load
 
 ---
 
@@ -174,8 +212,8 @@ Where:
 ## ✅ TODO
 
 - [ ] Add result saving to database
-- [ ] UI enhancements
-- [ ] Enable Light/Dark mode
+- [x] UI enhancements
+- [x] Enable Light/Dark mode
 - [ ] Test app working on tablet and mobile
 
 ---
