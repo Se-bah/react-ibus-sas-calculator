@@ -57,6 +57,7 @@
       "build/**/*",
       "main.js",
       "src/preload.js",
+      "logger.js",
       "public/Ibus-Sas-Calculator.png",
       "node_modules/electron-store/**/*"
     ],
