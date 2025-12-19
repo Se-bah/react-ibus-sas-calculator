@@ -13,17 +13,9 @@ const store = new Store({
 });
 
 // Check if we're in development based on the environment variable or if we're running from source
-const isDev = process.env.NODE_ENV === 'development' && !app.isPackaged;
-
-// Fix preload path for both dev and production
-const preloadPath = isDev
-    ? path.join(__dirname, "src/preload.js")
-    : path.join(__dirname, "preload.js");
-
+const isDev = !app.isPackaged;
 const fixedWidth = 620;
 const fixedHeight = 862;
-
-
 
 function createWindow() {
 
@@ -32,15 +24,45 @@ function createWindow() {
         y: undefined
     });
 
+    // More robust preload path resolution
+    let preloadPath;
+    if (isDev) {
+        preloadPath = path.join(__dirname, "src", "preload.js");
+    } else {
+        // In production, try multiple possible locations
+        preloadPath = path.join(__dirname, "preload.js");
+        
+        // Fallback paths
+        const alternativePaths = [
+            path.join(process.resourcesPath, "app", "preload.js"),
+            path.join(process.resourcesPath, "preload.js"),
+            path.join(__dirname, "..", "preload.js"),
+        ];
+        
+        const fs = require('fs');
+        if (!fs.existsSync(preloadPath)) {
+            for (const altPath of alternativePaths) {
+                if (fs.existsSync(altPath)) {
+                    preloadPath = altPath;
+                    break;
+                }
+            }
+        }
+    }
+
+    console.log('Preload path:', preloadPath);
+    console.log('__dirname:', __dirname);
+    console.log('isDev:', isDev);
+
     const mainWindow = new BrowserWindow({
         width: fixedWidth,
         height: fixedHeight,
         x: state.x,
         y: state.y,
-        resizable: false,  // Disable resizing
+        resizable: false,
         frame: false,
-        transparent: true,  // Make window background transparent
-        backgroundColor: '#00000000',  // Fully transparent background
+        transparent: true,
+        backgroundColor: '#00000000',
         title: "IBUS-SAS Calculator",
         icon: path.join(__dirname, "public/Ibus-Sas-Calculator.png"),
         webPreferences: {
@@ -51,30 +73,34 @@ function createWindow() {
     });
 
     if (isDev) {
-        // Load the React dev server URL
         mainWindow.loadURL('http://localhost:3000');        
-        // Open DevTools in development
         mainWindow.webContents.openDevTools();
     } else {
-        // Load the built static files for production
-        mainWindow.loadFile('build/index.html');
+        mainWindow.loadFile(path.join(__dirname, 'build', 'index.html'));
+        // TEMPORARY: Open DevTools in production for debugging
+        //mainWindow.webContents.openDevTools();
     }
 
-
+    // Log when preload script loads
+    mainWindow.webContents.on('did-finish-load', () => {
+        console.log('Page loaded');
+        // Test if window.electron is available
+        mainWindow.webContents.executeJavaScript('typeof window.electron !== "undefined"')
+            .then(result => console.log('window.electron exists:', result))
+            .catch(err => console.error('Error checking window.electron:', err));
+    });
 
     const saveState = () => {
         if (!mainWindow) return;
 
         const bounds = mainWindow.getBounds();
 
-        // Only save position, not size (since it's fixed)
         store.set("windowState", {
             x: bounds.x,
             y: bounds.y
         });
     };
 
-    // Save on close
     mainWindow.on("close", saveState);
 }
 
@@ -89,13 +115,23 @@ app.on("activate", () => {
 });
 
 ipcMain.on("window:minimize", (event) => {
-    //mainWindow?.getFocusedWindow()?.minimize();
+    console.log('Minimize event received');
     const win = BrowserWindow.fromWebContents(event.sender);
-    if (win) win.minimize();
+    if (win) {
+        win.minimize();
+        console.log('Window minimized');
+    } else {
+        console.log('Window not found');
+    }
 });
 
 ipcMain.on("window:close", (event) => {
-    //mainWindow?.getFocusedWindow()?.close();
+    console.log('Close event received');
     const win = BrowserWindow.fromWebContents(event.sender);
-    if (win) win.close();
+    if (win) {
+        win.close();
+        console.log('Window closed');
+    } else {
+        console.log('Window not found');
+    }
 });
