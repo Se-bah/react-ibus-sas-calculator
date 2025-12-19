@@ -8,28 +8,21 @@
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^13.5.0",
+    "electron-store": "^11.0.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4",
-    "workbox-background-sync": "^6.4.2",
-    "workbox-broadcast-update": "^6.4.2",
-    "workbox-cacheable-response": "^6.4.2",
-    "workbox-core": "^6.4.2",
-    "workbox-expiration": "^6.4.2",
-    "workbox-google-analytics": "^6.4.2",
-    "workbox-navigation-preload": "^6.4.2",
-    "workbox-precaching": "^6.4.2",
-    "workbox-range-requests": "^6.4.2",
-    "workbox-routing": "^6.4.2",
-    "workbox-strategies": "^6.4.2",
-    "workbox-streams": "^6.4.2"
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "electron:start": "electron .",
-    "package": "yarn build && electron-builder"
+    "electron:dev": "cross-env NODE_ENV=development concurrently -k \"yarn start\" \"wait-on http://localhost:3000 && electron .\"",
+    "electron:prod": "yarn build && cross-env NODE_ENV=production electron .",
+    "electron:build": "yarn build && electron-builder",
+    "package:win": "yarn build && electron-builder --win",
+    "package:linux": "yarn build && electron-builder --linux"
   },
   "eslintConfig": {
     "extends": [
@@ -50,8 +43,11 @@
     ]
   },
   "devDependencies": {
+    "concurrently": "^9.2.1",
+    "cross-env": "^10.1.0",
     "electron": "^39.2.4",
-    "electron-builder": "^26.0.12"
+    "electron-builder": "^26.0.12",
+    "wait-on": "^9.0.3"
   },
   "build": {
     "extends": null,
@@ -60,7 +56,18 @@
     "files": [
       "build/**/*",
       "main.js",
-      "public/Ibus-Sas-Calculator.png"
+      "src/preload.js",
+      "public/Ibus-Sas-Calculator.png",
+      "node_modules/electron-store/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "src/preload.js",
+        "to": "preload.js"
+      }
+    ],
+    "asarUnpack": [
+      "node_modules/electron-store/**/*"
     ],
     "directories": {
       "buildResources": "public"
@@ -70,6 +77,23 @@
       "target": [
         "AppImage"
       ]
-    }
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "icon": "public/Ibus-Sas-Calculator.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "portable": {
+      "artifactName": "IBUS-SAS-Calculator-Portable.exe"
+    },
+    "compression": "maximum",
+    "removePackageScripts": true,
+    "nodeGypRebuild": false
   }
 }

@@ -48,6 +48,26 @@ function App() {
 
     return (
         <div className="App">
+            <div className="titlebar">
+                <div className="titlebar-drag">
+                    <span className="title">IBUS-SAS Calculator</span>
+                </div>
+
+                <div className="window-controls">
+                    <button
+                        className="window-btn minimize"
+                        onClick={() => window.electron.minimize()}
+                    >
+                        —
+                    </button>
+                    <button
+                        className="window-btn close"
+                        onClick={() => window.electron.close()}
+                    >
+                        ✕
+                    </button>
+                </div>
+            </div>
             <div className="app-card">
                 <div className="header">
                     <h1>IBUS-SAS Calculator</h1>
