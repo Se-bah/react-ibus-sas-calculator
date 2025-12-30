@@ -146,7 +146,7 @@ https://create-react-app.dev/docs/making-a-progressive-web-app
 ### Build Linux AppImage
 Run
 ```
-yarn elevtron:build
+yarn electron:build
 ```
 The output will be inside the dist/folder: `IBUS-SAS Calculator-x.x.x.AppImage  ` 
 To run the AppImage on Linux:   
@@ -158,7 +158,7 @@ To run the AppImage on Linux:
 ### Build Windows .exe installer
 If you are building on Windows:
 ```
-yarn elevtron:build
+yarn electron:build
 ```
 If you are building on Linux: 
 ```
