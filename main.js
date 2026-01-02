@@ -3,28 +3,22 @@ const path = require("path");
 const Store = require("electron-store").default;
 const { log, initLogger } = require('./logger');
 
-// For portable mode: store data in AppData instead of next to executable
-// This ensures data persists across app updates and runs
+// Determine if running in portable mode or installed mode 
 const isPortable = process.env.PORTABLE_EXECUTABLE_DIR !== undefined;
-log(`isPortable: ${isPortable}`);
-log(`userDataPath: ${app.getPath("userData")}`);
 
 if (isPortable) {
-    // Use AppData for portable builds
+    // APPDATA is used on Windows, HOME on linux
     const appDataPath = path.join(
         process.env.APPDATA || process.env.HOME,
         "IBUS-SAS-Calculator"
     );
-    log(`Portable mode detected. Using AppData path: ${appDataPath}`);
     app.setPath("userData", appDataPath);
-    log(`Portable mode. Using user data path: ${app.getPath("userData")}`);
 } else {
     // For installed version: use data folder next to executable
     app.setPath(
         "userData",
         path.join(path.dirname(app.getPath("exe")), "data")
     );
-    log(`Non-portable mode detected. Using AppData path: ${app.getPath("userData")}`);
 }
 
 const store = new Store({
@@ -45,9 +39,6 @@ function createWindow() {
     log('Creating application window...');
     log(`Portable mode: ${isPortable}`);
     log(`User data path: ${app.getPath('userData')}`);
-    
-    log(`Logs path: ${app.getPath('logs')}`);
-
 
     // Restore previous window position from storage
     const savedState = store.get("windowState", {
@@ -55,7 +46,6 @@ function createWindow() {
         y: undefined
     });
 
-    log(`Restored window position: x=${savedState.x}, y=${savedState.y}`);
 
     // Determine correct preload script path based on environment
     const preloadPath = app.isPackaged 
@@ -101,9 +91,7 @@ function createWindow() {
             .catch(err => log(`Preload bridge check failed: ${err}`, 'ERROR'));
     });
 
-    /**
-     * Save window position before closing
-     */
+    // Save window position on close
     const saveWindowState = () => {
         if (!mainWindow) return;
         
@@ -114,7 +102,6 @@ function createWindow() {
         };
         
         store.set("windowState", stateToSave);
-        log(`Window state saved: x=${stateToSave.x}, y=${stateToSave.y}`);
     };
 
     mainWindow.on("close", saveWindowState);

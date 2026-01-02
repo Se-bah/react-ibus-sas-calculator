@@ -33,13 +33,11 @@ function initLogger(app) {
     // Create log file with timestamp to avoid overwriting
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5);
     logFile = path.join(logsDir, `app-${timestamp}.log`);
-    
-    // Log initialization info
+
     log(`=== LOGGER INITIALIZED ===`);
     log(`Log file: ${logFile}`);
     log(`Logs directory: ${logsDir}`);
     
-    // Keep only the last 10 log files to avoid filling up disk
     cleanOldLogs();
 }
 
