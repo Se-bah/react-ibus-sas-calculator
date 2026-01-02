@@ -1,12 +1,12 @@
 /**
  * Logger Module
  * 
- * Creates log files in a 'logs' folder next to the executable.
- * Useful for debugging packaged apps where console output isn't visible.
+ * Creates log files in the userData directory for consistent access.
+ * This ensures logs are accessible even for portable builds.
  * 
- * Log file location:
- * - Installed: C:\Program Files\AppName\logs\
- * - Portable: %TEMP%\[random-folder]\logs\ (extracted temp location)
+ * Log file locations:
+ * - Portable: %APPDATA%\IBUS-SAS-Calculator\logs\
+ * - Installed: [install-dir]\data\logs\
  */
 
 const fs = require('fs');
@@ -17,14 +17,13 @@ let logsDir;
 
 /**
  * Initialize the logger
- * Must be called after app.whenReady() to access app.getPath()
+ * Must be called after app.whenReady() and after userData path is set
  * 
  * @param {Electron.App} app - The Electron app instance
  */
 function initLogger(app) {
-    // Create logs directory next to the executable
-    // Does not work with portable mode as app.getPath('exe') points to temp location
-    logsDir = path.join(path.dirname(app.getPath('exe')), 'logs');
+    // Create logs directory inside userData (which we've already configured)
+    logsDir = path.join(app.getPath('userData'), 'logs');
 
     // Ensure logs directory exists
     if (!fs.existsSync(logsDir)) {
@@ -39,6 +38,9 @@ function initLogger(app) {
     log(`=== LOGGER INITIALIZED ===`);
     log(`Log file: ${logFile}`);
     log(`Logs directory: ${logsDir}`);
+    
+    // Keep only the last 10 log files to avoid filling up disk
+    cleanOldLogs();
 }
 
 /**
@@ -61,6 +63,36 @@ function log(message, type = 'INFO') {
     }
     
     console.log(message);
+}
+
+/**
+ * Clean up old log files, keeping only the most recent 10
+ */
+function cleanOldLogs() {
+    try {
+        const files = fs.readdirSync(logsDir)
+            .filter(file => file.startsWith('app-') && file.endsWith('.log'))
+            .map(file => ({
+                name: file,
+                path: path.join(logsDir, file),
+                time: fs.statSync(path.join(logsDir, file)).mtime.getTime()
+            }))
+            .sort((a, b) => b.time - a.time); // Sort by newest first
+
+        // Delete all but the 10 most recent
+        if (files.length > 10) {
+            files.slice(10).forEach(file => {
+                try {
+                    fs.unlinkSync(file.path);
+                    log(`Deleted old log file: ${file.name}`);
+                } catch (err) {
+                    log(`Failed to delete old log: ${file.name}`, 'ERROR');
+                }
+            });
+        }
+    } catch (err) {
+        log(`Failed to clean old logs: ${err}`, 'ERROR');
+    }
 }
 
 module.exports = { log, initLogger };
