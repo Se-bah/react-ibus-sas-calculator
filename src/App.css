@@ -208,3 +208,18 @@ body {
     background: #e81123;
     color: white;
 }
+
+.title-dropdown {
+    margin-left: 8px;
+    background: trasparent;
+    border: none;
+    color: var(--label);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    -webkit-app-region: no-drag;
+}
+
+.title-dropdown:focus{
+    outline: none;
+}
