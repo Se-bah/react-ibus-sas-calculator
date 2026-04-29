@@ -49,9 +49,7 @@ export default function PMayoView() {
                     <option value = "3">3 - 5 or more stools/day more than normal</option>
                 </select>
 
-                {errors.stoolFrequency && (
-                    <p className = "error-text">Please select a value</p>
-                )}
+                {errors.stoolFrequency && <p className = "error-text">Please select a value</p>}
             </div>
 
 
@@ -71,11 +69,8 @@ export default function PMayoView() {
                     <option value = "3">3 - blood only</option>
                 </select>
 
-                {errors.rectalBleeding && (
-                    <p className = "error-text">Please select a value</p>
-                )}
+                {errors.rectalBleeding && <p className = "error-text">Please select a value</p>}
             </div>
-
 
             <div className = "question-block">
                 <label>Physician Global Assessment: </label>
@@ -92,9 +87,7 @@ export default function PMayoView() {
                     <option value = "3">3 - severe disease</option>
                 </select>
 
-                {errors.physicianAssessment && (
-                    <p className = "error-text">Please select a value</p>
-                )}
+                {errors.physicianAssessment && <p className = "error-text">Please select a value</p>}
             </div>
 
             <button className = "calculate-btn" onClick={handleCalculate}>
@@ -120,7 +113,7 @@ export default function PMayoView() {
                         </ul>
                     </div>
                 </div>
-            )}d
+            )}
         </>
     );
 }

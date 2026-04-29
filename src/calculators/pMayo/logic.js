@@ -1,7 +1,7 @@
 export function calculate (values) {
     return (
         Number(values.stoolFrequency) +
-        Number(values.bleeding) +
+        Number(values.rectalBleeding) +
         Number(values.physicianAssessment)
     );
 }
@@ -9,7 +9,7 @@ export function calculate (values) {
 export function validate (values) {
     return {
         stoolFrequency: values.stoolFrequency === "",
-        bleeding: values.bleeding === "",
+        rectalBleeding: values.rectalBleeding === "",
         physicianAssessment: values.physicianAssessment === ""
     };
 }

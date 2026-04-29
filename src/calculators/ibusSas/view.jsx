@@ -35,7 +35,6 @@ export default function IbusSasView(){
 
     return (
         <>
-            {/*Existing inputs go here */}
             {/* BWT */}
             <div className = "question-block">
                 <label>BWT (mm):</label>
@@ -47,9 +46,7 @@ export default function IbusSasView(){
                     onChange = {(e) => updateValue("bwt", e.target.value)}
                     className = {errors.bwt ? "input-error" : ""}
                 />
-                {errors.bwt && (
-                    <p className = "error-text">Enter a valid BWT value (≥ 0)</p>
-                )}
+                {errors.bwt && <p className = "error-text">Enter a valid BWT value (≥ 0)</p>}
                 <p className = "help-text">
                     Enter bowel wall thickness in millimeters (e.g., 3.4)
                 </p>
@@ -85,10 +82,8 @@ export default function IbusSasView(){
                     <option value = "">Select</option>
                     <option value = "0">0 - absent signal</option>
                     <option value = "1">1 - short round signals</option>
-                    <option value = "2">2 - longitudinal signals within the intestinal wall
-                    </option>
-                    <option value = "3">3 - long signals outside the intestinal wall
-                    </option>
+                    <option value = "2">2 - longitudinal signals within the intestinal wall</option>
+                    <option value = "3">3 - long signals outside the intestinal wall</option>
                 </select>
                 {errors.cds && <p className = "error-text">Please select a value</p>}
                 <p className = "help-text">
@@ -116,7 +111,7 @@ export default function IbusSasView(){
                 </p>
             </div>
 
-            <button className = "calculate-btn" onClick={handleCalculate}>
+            <button className = "calculate-btn" onClick = {handleCalculate}>
                 Calculate
             </button>
 

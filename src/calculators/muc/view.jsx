@@ -44,9 +44,7 @@ export default function MucView() {
                     onChange = {(e) => updateValue("bwt", e.target.value)}
                     className = {errors.bwt ? "input-error" : ""}
                 />
-                {errors.bwt && (
-                    <p className = "error-text">Enter a valid BWT value (≥ 0)</p>
-                )}
+                {errors.bwt && <p className = "error-text">Enter a valid BWT value (≥ 0)</p>}
                 <p className = "help-text">
                     Enter bowel wall thickness in millimeters.
                 </p>
@@ -63,9 +61,7 @@ export default function MucView() {
                     <option value = "0">0 - absent signal</option>
                     <option value = "1">1 - present signal</option>
                 </select>
-                {errors.cds && (
-                    <p className = "error-text">Please select a value</p>
-                )}
+                {errors.cds && <p className = "error-text">Please select a value</p>}
                 <p className = "help-text">
                     Color Doppler Signal.
                 </p>
