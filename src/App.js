@@ -20,17 +20,7 @@ function App() {
         <div className="App">
             <div className="titlebar">
                 <div className="titlebar-drag">
-                    <select
-                        className="title-dropdown"
-                        value={activeCalculatorId}
-                        onChange={(e) => setActiveCalculatorId(e.target.value)}
-                    >
-                        {calculators.map((calculator) => (
-                            <option key={calculator.id} value={calculator.id}>
-                                {calculator.name}
-                            </option>
-                        ))}
-                    </select>
+                    <span className="title">{activeCalculator.name}</span> {/* This could also serve as a dropdown button */}
                 </div>
 
                 <div className="window-controls">
@@ -52,7 +42,17 @@ function App() {
 
             <div className="app-card">
                 <div className="header">
-                    <h1>{activeCalculator.name} Calculator</h1>
+                    <select
+                        className="calculator-heading-select"
+                        value={activeCalculatorId}
+                        onChange={(e) => setActiveCalculatorId(e.target.value)}
+                    >
+                        {calculators.map((calculator) => (
+                            <option key={calculator.id} value={calculator.id}>
+                                {calculator.name} Calculator
+                            </option>
+                        ))}
+                    </select>
 
                     <button
                         className="theme-toggle"

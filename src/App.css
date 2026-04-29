@@ -211,7 +211,7 @@ body {
 
 .title-dropdown {
     margin-left: 8px;
-    background: trasparent;
+    background: transparent;
     border: none;
     color: var(--label);
     font-size: 0.85rem;
@@ -222,4 +222,19 @@ body {
 
 .title-dropdown:focus{
     outline: none;
+}
+
+.calculator-heading-select {
+    background: transparent;
+    border: none;
+    color: var(--text);
+    font-size: 2rem;
+    font-weight: 700;
+    cursor: pointer;
+    max-width: 100%;
+}
+
+.calculator-heading-select:focus {
+    outline: 2px solid var(--accent);
+    border-radius: 6px;
 }
