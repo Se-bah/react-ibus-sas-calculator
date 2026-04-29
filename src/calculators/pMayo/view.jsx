@@ -34,6 +34,7 @@ export default function PMayoView() {
 
     return (
         <>
+            {/* Stool frequency */}
             <div className = "question-block">
                 <label>Stool Frequency:</label>
 
@@ -52,7 +53,7 @@ export default function PMayoView() {
                 {errors.stoolFrequency && <p className = "error-text">Please select a value</p>}
             </div>
 
-
+            {/* Rectal bleeding */}
             <div className = "question-block">
                 <label>Rectal Bleeding:</label>
 
@@ -72,6 +73,7 @@ export default function PMayoView() {
                 {errors.rectalBleeding && <p className = "error-text">Please select a value</p>}
             </div>
 
+            {/* Physician Global Assessment  */}
             <div className = "question-block">
                 <label>Physician Global Assessment: </label>
 

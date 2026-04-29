@@ -34,6 +34,7 @@ export default function MucView() {
 
     return (
         <>
+            {/* BWT */}
             <div className = "question-block">
                 <label>BWT (mm):</label>
                 <input
@@ -50,6 +51,7 @@ export default function MucView() {
                 </p>
             </div>
 
+            {/* CDS */}
             <div className = "question-block">
                 <label>CDS:</label>
                 <select
