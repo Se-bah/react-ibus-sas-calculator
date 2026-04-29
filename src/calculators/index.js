@@ -1,5 +1,6 @@
 import IbusSasView from "./ibusSas/view";
 import MucView from "./muc/view";
+import PMayoView from "./pMayo/view";
 
 export const calculators = [
     {
@@ -11,5 +12,10 @@ export const calculators = [
         id: "muc",
         name: "MUC",
         component: MucView
+    },
+    {
+        id: "pmayo",
+        name: "pMayo",
+        component: PMayoView
     }
 ];

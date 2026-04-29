@@ -17,46 +17,46 @@ function App() {
     const ActiveCalculatorView = activeCalculator.component;
 
     return (
-        <div className="App">
-            <div className="titlebar">
-                <div className="titlebar-drag">
-                    <span className="title">{activeCalculator.name}</span> {/* This could also serve as a dropdown button */}
+        <div className = "App">
+            <div className = "titlebar">
+                <div className = "titlebar-drag">
+                    <span className = "title">{activeCalculator.name}</span> {/* This could also serve as a dropdown button */}
                 </div>
 
-                <div className="window-controls">
+                <div className = "window-controls">
                     <button
-                        className="window-btn minimize"
-                        onClick={() => window.electron.minimize()}
+                        className = "window-btn minimize"
+                        onClick = {() => window.electron.minimize()}
                     >
                         —
                     </button>
 
                     <button
-                        className="window-btn close"
-                        onClick={() => window.electron.close()}
+                        className = "window-btn close"
+                        onClick = {() => window.electron.close()}
                     >
                         ✕
                     </button>
                 </div>
             </div>
 
-            <div className="app-card">
-                <div className="header">
+            <div className = "app-card">
+                <div className = "header">
                     <select
-                        className="calculator-heading-select"
-                        value={activeCalculatorId}
-                        onChange={(e) => setActiveCalculatorId(e.target.value)}
+                        className = "calculator-heading-select"
+                        value = {activeCalculatorId}
+                        onChange = {(e) => setActiveCalculatorId(e.target.value)}
                     >
                         {calculators.map((calculator) => (
-                            <option key={calculator.id} value={calculator.id}>
+                            <option key = {calculator.id} value={calculator.id}>
                                 {calculator.name} Calculator
                             </option>
                         ))}
                     </select>
 
                     <button
-                        className="theme-toggle"
-                        onClick={() =>
+                        className = "theme-toggle"
+                        onClick = {() =>
                             setTheme((current) =>
                                 current === "light" ? "dark" : "light"
                             )

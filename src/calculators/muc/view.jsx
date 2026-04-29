@@ -34,49 +34,49 @@ export default function MucView() {
 
     return (
         <>
-            <div className="question-block">
+            <div className = "question-block">
                 <label>BWT (mm):</label>
                 <input
-                    type="number"
-                    min="0"
-                    step="0.01"
-                    value={values.bwt}
-                    onChange={(e) => updateValue("bwt", e.target.value)}
-                    className={errors.bwt ? "input-error" : ""}
+                    type = "number"
+                    min = "0"
+                    step = "0.01"
+                    value = {values.bwt}
+                    onChange = {(e) => updateValue("bwt", e.target.value)}
+                    className = {errors.bwt ? "input-error" : ""}
                 />
                 {errors.bwt && (
-                    <p className="error-text">Enter a valid BWT value (≥ 0)</p>
+                    <p className = "error-text">Enter a valid BWT value (≥ 0)</p>
                 )}
-                <p className="help-text">
+                <p className = "help-text">
                     Enter bowel wall thickness in millimeters.
                 </p>
             </div>
 
-            <div className="question-block">
+            <div className = "question-block">
                 <label>CDS:</label>
                 <select
-                    value={values.cds}
-                    onChange={(e) => updateValue("cds", e.target.value)}
-                    className={errors.cds ? "input-error" : ""}
+                    value = {values.cds}
+                    onChange = {(e) => updateValue("cds", e.target.value)}
+                    className = {errors.cds ? "input-error" : ""}
                 >
-                    <option value="">Select</option>
-                    <option value="0">0 - absent signal</option>
-                    <option value="1">1 - present signal</option>
+                    <option value = "">Select</option>
+                    <option value = "0">0 - absent signal</option>
+                    <option value = "1">1 - present signal</option>
                 </select>
                 {errors.cds && (
-                    <p className="error-text">Please select a value</p>
+                    <p className = "error-text">Please select a value</p>
                 )}
-                <p className="help-text">
+                <p className = "help-text">
                     Color Doppler Signal.
                 </p>
             </div>
 
-            <button className="calculate-btn" onClick={handleCalculate}>
+            <button className = "calculate-btn" onClick = {handleCalculate}>
                 Calculate
             </button>
 
             {result !== null && (
-                <div className="result">
+                <div className = "result">
                     <h2>MUC Score: {result.toFixed(2)}</h2>
 
                     <p>
@@ -84,11 +84,11 @@ export default function MucView() {
                         {interpret(result)}
                     </p>
 
-                    <div className="reference-values">
+                    <div className = "reference-values">
                         <strong>Values:</strong>
                         <ul>
                             {referenceValues.map((item) => (
-                                <li key={item}>{item}</li>
+                                <li key = {item}>{item}</li>
                             ))}
                         </ul>
                     </div>
