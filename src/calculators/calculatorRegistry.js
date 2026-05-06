@@ -1,7 +1,7 @@
-import IbusSasView from "./ibusSas/view";
-import MucView from "./muc/view";
-import PMayoView from "./pMayo/view";
-import HbiView from "./hbi/view";
+import IbusSasView from "./ibusSas/IbusSasView";
+import MucView from "./muc/MucView";
+import PMayoView from "./pMayo/PMayoView";
+import HbiView from "./hbi/HbiView";
 
 export const calculators = [
     {

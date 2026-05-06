@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import { calculators } from "./calculators";
+import { calculators } from "./calculators/calculatorRegistry";
 
 function App() {
     const [theme, setTheme] = useState("light");

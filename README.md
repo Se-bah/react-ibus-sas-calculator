@@ -132,7 +132,7 @@ The app uses a service worker (via CRA) for offline caching.
 
 This logic is configured in:
 ```js
-src/index.js → serviceWorkerRegistration.register({ onUpdate: ... })
+src/calculatorRegistry.js → serviceWorkerRegistration.register({ onUpdate: ... })
 ```
 >Note: For development and to avoid caching issues, change ```serviceWorkerRegistration.register()```
 > to ```serviceWorkerRegistration.unregister()```

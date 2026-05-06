@@ -5,7 +5,7 @@ import {
     interpret,
     referenceValues,
     complicationOptions
-} from "./logic";
+} from "./hbiLogic";
 
 export default function HbiView() {
     const [values, setValues] = useState({

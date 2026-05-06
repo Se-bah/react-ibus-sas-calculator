@@ -4,7 +4,7 @@ import{
     validate,
     interpret,
     referenceValues
-} from "./logic";
+} from "./ibusSasLogic";
 
 export default function IbusSasView(){
     const [values, setValues] = useState({

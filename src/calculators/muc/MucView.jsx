@@ -4,7 +4,7 @@ import {
     validate,
     interpret,
     referenceValues
-} from "./logic";
+} from "./mucLogic";
 
 export default function MucView() {
     const [values, setValues] = useState({

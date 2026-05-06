@@ -4,7 +4,7 @@ import {
     validate,
     interpret,
     referenceValues
-} from "./logic";
+} from "./pMayoLogic";
 
 export default function PMayoView() {
     const [values, setValues] = useState({
@@ -60,7 +60,7 @@ export default function PMayoView() {
                 <select
                     value = {values.rectalBleeding}
                     onChange = {(e) => updateValue("rectalBleeding", e.target.value)}
-                    className = {errors.rectalBleedingbleeding ? "input-error" : ""}
+                    className = {errors.rectalBleeding ? "input-error" : ""}
                     >
 
                     <option value = "">Select</option>
