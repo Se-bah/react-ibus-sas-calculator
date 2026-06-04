@@ -14,7 +14,7 @@ export default function SelectInput ({
             <select
                 value = {value}
                 onChange = {(e) => onChange (e.target.value)}
-                className = {erorr ? "input-error" : ""}
+                className = {error ? "input-error" : ""}
             >
                 <option value = "">Select</option>
 
