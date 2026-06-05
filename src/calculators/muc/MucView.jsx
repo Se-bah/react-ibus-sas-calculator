@@ -1,4 +1,8 @@
 import React, { useState } from "react";
+import NumberInput from "../../components/NumberInput"
+import SelectInput from "../../components/SelectInput"
+import ResultBox from "../../components/ResultBox"
+
 import {
     calculate,
     validate,
@@ -6,7 +10,7 @@ import {
     referenceValues
 } from "./mucLogic";
 
-export default function MucView() {
+function MucView() {
     const [values, setValues] = useState({
         bwt: "",
         cds: ""
@@ -35,63 +39,44 @@ export default function MucView() {
     return (
         <>
             {/* BWT */}
-            <div className = "question-block">
-                <label>BWT (mm):</label>
-                <input
-                    type = "number"
-                    min = "0"
-                    step = "0.01"
-                    value = {values.bwt}
-                    onChange = {(e) => updateValue("bwt", e.target.value)}
-                    className = {errors.bwt ? "input-error" : ""}
-                />
-                {errors.bwt && <p className = "error-text">Enter a valid BWT value (≥ 0)</p>}
-                <p className = "help-text">
-                    Enter bowel wall thickness in millimeters.
-                </p>
-            </div>
+            <NumberInput
+            label = "BWT (mm)"
+            value = {values.bwt}
+            onChange = {(value) => updateValue("bwt", value)}
+            error =  {errors.bwt}
+            errorMessage = "Enter a valid BWT value (≥ 0)"
+            helpText = "Bowel wall thickness in millimeters."
+            step = "0.01"
+            />
 
             {/* CDS */}
-            <div className = "question-block">
-                <label>CDS:</label>
-                <select
-                    value = {values.cds}
-                    onChange = {(e) => updateValue("cds", e.target.value)}
-                    className = {errors.cds ? "input-error" : ""}
-                >
-                    <option value = "">Select</option>
-                    <option value = "0">0 - absent signal</option>
-                    <option value = "1">1 - present signal</option>
-                </select>
-                {errors.cds && <p className = "error-text">Please select a value</p>}
-                <p className = "help-text">
-                    Color Doppler Signal.
-                </p>
-            </div>
+            <SelectInput
+                label="CDS:"
+                value={values.cds}
+                onChange={(value) => updateValue("cds", value)}
+                error={errors.cds}
+                errorMessage="Please select a CDS value"
+                helpText="Color Doppler Signal."
+                options={[
+                    { value: "0", label: "0 - absent" },
+                    { value: "1", label: "1 - present" }
+                ]}
+            />
 
             <button className = "calculate-btn" onClick = {handleCalculate}>
                 Calculate
             </button>
 
             {result !== null && (
-                <div className = "result">
-                    <h2>MUC Score: {result.toFixed(2)}</h2>
-
-                    <p>
-                        <strong>Interpretation:</strong>{" "}
-                        {interpret(result)}
-                    </p>
-
-                    <div className = "reference-values">
-                        <strong>Values:</strong>
-                        <ul>
-                            {referenceValues.map((item) => (
-                                <li key = {item}>{item}</li>
-                            ))}
-                        </ul>
-                    </div>
-                </div>
+                <ResultBox
+                    title = "MUC Score"
+                    score = {result.toFixed(2)}
+                    interpretation = {interpret(result)}
+                    referenceValues = {referenceValues}
+                />
             )}
         </>
     );
 }
+
+export default MucView;
