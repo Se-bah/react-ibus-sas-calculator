@@ -51,7 +51,7 @@ function MucView() {
 
             {/* CDS */}
             <SelectInput
-                label = "CDS:"
+                label = "CDS"
                 value = {values.cds}
                 onChange = {(value) => updateValue("cds", value)}
                 error = {errors.cds}
