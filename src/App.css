@@ -51,6 +51,28 @@ body {
     align-items:stretch;
     flex-direction: column;
     border-radius: 12px;
+
+    max-height: calc(100vh - 36px);
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+.app-card::-webkit-scrollbar {
+    width: 10px;
+}
+
+.app-card::-webkit-scrollbar-track {
+    background: var(--card-bg);
+    border-radius: 10px;
+}
+
+.app-card::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 10px;
+}
+
+.app-card::-webkit-scrollbar-thumb:hover {
+    background: var(--accent);
 }
 
 .header {
