@@ -1,4 +1,9 @@
 import React, { useState } from "react";
+
+import NumberInput from "../../components/NumberInput";
+import SelectInput from "../../components/SelectInput";
+import ResultBox from "../../components/ResultBox";
+
 import {
     calculate,
     validate,
@@ -7,7 +12,7 @@ import {
     complicationOptions
 } from "./hbiLogic";
 
-export default function HbiView() {
+function HbiView() {
     const [values, setValues] = useState({
         wellBeing: "",
         abdominalPain: "",
@@ -24,6 +29,14 @@ export default function HbiView() {
         setValues((current) => ({
             ...current,
             [field]: value
+        }));
+    };
+
+    const updateHasComplications = (value) => {
+        setValues((current) => ({
+            ...current,
+            hasComplications: value,
+            complications: values === "yes" ? current.complications : []
         }));
     };
 
@@ -50,112 +63,81 @@ export default function HbiView() {
     return (
         <>
             {/* General Well-being  */}
-        <div className = "question-block">
-            <label>General Well-being</label>
-
-            <select
-                value = {values.wellBeing}
-                onChange = {(e) => updateValue("wellBeing", e.target.value)}
-                className = {errors.wellBeing ? "input-error" : ""}
-                >
-
-                <option value = "">Select</option>
-                <option value = "0">0 - excellent</option>
-                <option value = "1">1 - good</option>
-                <option value = "2">2 - fair</option>
-                <option value = "3">3 - poor</option>
-                <option value = "4">4 - terrible</option>
-            </select>
-
-            {errors.wellBeing && <p className = "error-text">Please select a value</p>}
-        </div>
+        <SelectInput
+            label = "General Well-being"
+            value = {values.wellBeing}
+            onChange = {(value) => updateValue("wellBeing", value)}
+            error = {errors.wellBeing}
+            errorMessage = "Please select a value"
+            helpText = "(0 = excellent, 4 = terrible)"
+            options = {[
+                { value: "0", label: "0 - excellent" },
+                { value: "1", label: "1 - good" },
+                { value: "2", label: "2 - fair" },
+                { value: "3", label: "3 - poor" },
+                { value: "4", label: "4 - terrible" }
+            ]}
+        />
 
             {/* Abdominal pain */}
-        <div className = "question-block">
-            <label>Abdominal Pain</label>
-
-            <select
-                value = {values.abdominalPain}
-                onChange = {(e) => updateValue("abdominalPain", e.target.value)}
-                className = {errors.abdominalPain ? "input-error" : ""}
-            >
-
-                <option value = "">Select</option>
-                <option value = "0">0 - none</option>
-                <option value = "1">1 - mild</option>
-                <option value = "2">2 - moderate</option>
-                <option value = "3">3 - severe</option>
-            </select>
-
-            {errors.abdominalPain && <p className = "error-text">Please select a value</p>}
-        </div>
+        <SelectInput
+            label = "Abdominal Pain"
+            value = {values.abdominalPain}
+            onChange = {(value) => updateValue("abdominalPain", value)}
+            error = {errors.abdominalPain}
+            errorMessage = "Please select a value"
+            helpText = "Level of abdominal pain (0 = none, 3 = severe)"
+            options = {[
+                { value: "0", label: "0 - none" },
+                { value: "1", label: "1 - mild" },
+                { value: "2", label: "2 - moderate" },
+                { value: "3", label: "3 - severe" }
+            ]}
+        />
 
             {/* Number of Liquid Stools per Day */}
-        <div className = "question-block">
-            <label>Number of Liquid Stools per Day</label>
-
-            <input
-                type = "number"
-                min = "0"
-                step = "1"
-                value = {values.liquidStools}
-                onChange = {(e) => updateValue("liquidStools", e.target.value)}
-                className = {errors.liquidStools ? "input-error" : ""}
-                />
-
-            {errors.liquidStools && <p className = "error-text">Enter a valid number (≥ 0)</p>}
-        </div>
+        <NumberInput
+            label = "Number of Liquid Stools per day"
+            value = {values.liquidStools}
+            onChange = {(value) => updateValue("liquidStools", value)}
+            error = {errors.liquidStools}
+            errorMessage = "Enter a valid number (≥ 0)"
+            helpText = "Enter a number of Liquid Stools per day (e.g., 3)"
+        />
 
             {/* Abdominal Mass */}
-        <div className = "question-block">
-            <label>Abdominal Mass</label>
-
-            <select
-                value = {values.abdominalMass}
-                onChange = {(e) => updateValue("abdominalMass", e.target.value)}
-                className = {errors.abdominalMass ? "input-error" : ""}
-            >
-
-                <option value = "">Select</option>
-                <option value = "0">0 - absent</option>
-                <option value = "1">1 - dubious</option>
-                <option value = "2">2 - definite</option>
-                <option value = "3">3 - definite and tender</option>
-            </select>
-
-            {errors.abdominalMass && <p className = "error-text">Please select a value</p>}
-        </div>
+        <SelectInput
+            label = "Abdominal Mass"
+            value = {values.abdominalMass}
+            onChange = {(value) => updateValue("abdominalMass", value)}
+            error = {errors.abdominalMass}
+            errorMessage = "Please select a value"
+            helpText = "Abdominal mass on examination (0 = absent, 3 = definite and tender)"
+            options = {[
+                { value: "0", label: "0 - absent" },
+                { value: "1", label: "1 - dubious" },
+                { value: "2", label: "2 - definite" },
+                { value: "3", label: "3 - definite and tender" }
+            ]}
+        />
 
             {/* Complications - yes/no choice, much like any other question block earlier */}
-        <div className = "question-block">
-            <label>Complications:</label>
-
-            <select
-                value = {values.hasComplications}
-                onChange = {(e) => {const selectedValue = e.target.value;
-
-                    setValues((current) => ({
-                        ...current,
-                        hasComplications: selectedValue,
-                        complications:
-                            selectedValue === "yes" ? current.complications : []
-                    }));
-                }}
-                className = {errors.hasComplications ? "input-error" : ""}
-            >
-                <option value = "">Select</option>
-                <option value = "no">no</option>
-                <option value = "yes">yes</option>
-            </select>
-            <p className = "help-text">
-                No - 0 points are added, Yes - for more complications
-            </p>
-
-            {errors.hasComplications && <p className = "error-text">Please select a value</p>}
-        </div>
+        <SelectInput
+            label = "Complications"
+            value = {values.hasComplications}
+            onChange = {updateHasComplications}
+            erorr = {errors.hasComplications}
+            errorMessage = "Please select a value"
+            helpText = "NO = 0 points added, YES = choose complications below"
+            options = {[
+                { value: "no", label: "No" },
+                { value: "yes", label: "Yes" }
+            ]}
+        />
 
             {/* Complications - if you choose YES earlier, more options show up */}
             {/* there is no error-check yet for no boxes ticked, so the default value is just 0 */}
+
             {values.hasComplications === "yes" && (
         <div className = "question-block">
             <label>Complication Details:</label>
@@ -188,25 +170,14 @@ export default function HbiView() {
         </button>
 
             {result !== null && (
-                <div className = "result">
-                    <h2>HBI Score: {result}</h2>
-
-                    <p>
-                        <strong>Interpretation:</strong>{" "}
-                        {interpret(result)}
-                    </p>
-
-                    <div className = "reference-values">
-                        <strong>Values:</strong>
-
-                        <ul>
-                            {referenceValues.map((item) =>(
-                                <li key = {item}>{item}</li>
-                            ))}
-                        </ul>
-                    </div>
-                </div>
+                <ResultBox
+                    title = "HBI Score"
+                    score = {result}
+                    interpretation = {interpret(result)}
+                    referenceValues = {referenceValues}
+                />
             )}
         </>
     );
 }
+export default HbiView;

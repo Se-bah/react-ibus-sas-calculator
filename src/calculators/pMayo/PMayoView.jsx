@@ -1,4 +1,8 @@
 import React, { useState } from "react";
+
+import SelectInput from "../../components/SelectInput";
+import ResultBox from "../../components/ResultBox";
+
 import {
     calculate,
     validate,
@@ -6,7 +10,7 @@ import {
     referenceValues
 } from "./pMayoLogic";
 
-export default function PMayoView() {
+function PMayoView() {
     const [values, setValues] = useState({
         stoolFrequency: "",
         rectalBleeding: "",
@@ -35,87 +39,67 @@ export default function PMayoView() {
     return (
         <>
             {/* Stool frequency */}
-            <div className = "question-block">
-                <label>Stool Frequency:</label>
-
-                <select
-                    value = {values.stoolFrequency}
-                    onChange = {(e) => updateValue("stoolFrequency", e.target.value)}
-                    className = {errors.stoolFrequency ? "input-error" : ""}
-                    >
-                    <option value = "">Select</option>
-                    <option value = "0">0 - Normal</option>
-                    <option value = "1">1 - 1 to 2 stools/day more than normal</option>
-                    <option value = "2">2 - 3 to 4 stools/day more than normal</option>
-                    <option value = "3">3 - 5 or more stools/day more than normal</option>
-                </select>
-
-                {errors.stoolFrequency && <p className = "error-text">Please select a value</p>}
-            </div>
+            <SelectInput
+                label = "Stool Frequency"
+                value = {values.stoolFrequency}
+                onChange = {(value) => updateValue("stoolFrequency", value)}
+                error = {errors.stoolFrequency}
+                erorrMessage = "Please select a value"
+                helpText = "Increase in stool frequency (0 = normal, 3 = ≥ 5 stools/day above normal)"
+                options = {[
+                    { value: "0", label: "0 - normal" },
+                    { value: "1", label: "1 - 1 to 2 stools/day more than normal" },
+                    { value: "2", label: "2 - 3 to 4 stools/day more than normal" },
+                    { value: "3", label: "3 - 5 or more stools/day more than normal" },
+                ]}
+            />
 
             {/* Rectal bleeding */}
-            <div className = "question-block">
-                <label>Rectal Bleeding:</label>
-
-                <select
-                    value = {values.rectalBleeding}
-                    onChange = {(e) => updateValue("rectalBleeding", e.target.value)}
-                    className = {errors.rectalBleeding ? "input-error" : ""}
-                    >
-
-                    <option value = "">Select</option>
-                    <option value = "0">0 - absent</option>
-                    <option value = "1">1 - traces of blood less than half the time</option>
-                    <option value = "2">2 - obvious blood most of the time</option>
-                    <option value = "3">3 - blood only</option>
-                </select>
-
-                {errors.rectalBleeding && <p className = "error-text">Please select a value</p>}
-            </div>
+            <SelectInput
+                label = "Rectal Bleeding"
+                value = {values.rectalBleeding}
+                onChange = {(value) => updateValue("rectalBleeding", value)}
+                error = {errors.rectalBleeding}
+                errorMessage = "Please select a value"
+                helpText = "Severity of rectal bleeding (0 = absent, 3 = blood only)"
+                options = {[
+                    { value: "0", label: "0 - absent" },
+                    { value: "1", label: "1 - traces of blood less than half the time" },
+                    { value: "2", label: "2 - obvious blood most of the time" },
+                    { value: "3", label: "3 - blood only" }
+                ]}
+            />
 
             {/* Physician Global Assessment  */}
-            <div className = "question-block">
-                <label>Physician Global Assessment: </label>
-
-                <select
-                    value = {values.physicianAssessment}
-                    onChange = {(e) => updateValue("physicianAssessment", e.target.value)}
-                    className = {errors.physicianAssessment ? "input-error" : ""}
-                    >
-                    <option value = "">Select</option>
-                    <option value = "0">0 - normal</option>
-                    <option value = "1">1 - mild disease</option>
-                    <option value = "2">2 - moderate disease</option>
-                    <option value = "3">3 - severe disease</option>
-                </select>
-
-                {errors.physicianAssessment && <p className = "error-text">Please select a value</p>}
-            </div>
+            <SelectInput
+                label = "Physician's Assessment"
+                value = {values.physicianAssessment}
+                onChange = {(value) => updateValue("physicianAssessment", value)}
+                error = {errors.physicianAssessment}
+                errorMessage = "Please select a value"
+                helpText = "Overall disease assessment (0 = normal, 3 = severe disease)"
+                options = {[
+                    { value: "0", label: "0 - normal" },
+                    { value: "1", label: "1 - mild disease" },
+                    { value: "2", label: "2 - moderate disease" },
+                    { value: "3", label: "3 - severe disease" },
+                ]}
+            />
 
             <button className = "calculate-btn" onClick={handleCalculate}>
                 Calculate
             </button>
 
             {result !== null && (
-                <div className = "result">
-                    <h2>pMayo Score: {result}</h2>
-
-                    <p>
-                        <strong>Interpretation:</strong>{" "}
-                        {interpret(result)}
-                    </p>
-
-                    <div className = "reference-values">
-                        <strong>Values:</strong>
-
-                        <ul>
-                            {referenceValues.map((item) => (
-                                <li key = {item}>{item}</li>
-                            ))}
-                        </ul>
-                    </div>
-                </div>
+                <ResultBox
+                    title = "pMayo Score"
+                    score = {result}
+                    interpretation = {interpret(result)}
+                    referenceValues = {referenceValues}
+                />
             )}
         </>
     );
 }
+
+export default PMayoView;
