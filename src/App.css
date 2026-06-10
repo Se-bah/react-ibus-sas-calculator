@@ -256,6 +256,11 @@ body {
     max-width: 100%;
 }
 
+.calculator-heading-select option {
+    background-color: var(--card-bg);
+    color: var(--text);
+}
+
 .calculator-heading-select:focus {
     outline: 2px solid var(--accent);
     border-radius: 6px;
