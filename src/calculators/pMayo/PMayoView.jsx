@@ -44,7 +44,7 @@ function PMayoView() {
                 value = {values.stoolFrequency}
                 onChange = {(value) => updateValue("stoolFrequency", value)}
                 error = {errors.stoolFrequency}
-                erorrMessage = "Please select a value"
+                errorMessage = "Please select a value"
                 helpText = "Increase in stool frequency (0 = normal, 3 = ≥ 5 stools/day above normal)"
                 options = {[
                     { value: "0", label: "0 - normal" },
