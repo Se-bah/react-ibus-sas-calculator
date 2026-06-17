@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import NumberInput from "../../components/NumberInput";
 import SelectInput from "../../components/SelectInput";
 import ResultBox from "../../components/ResultBox";
+import CheckboxGroup from "../../components/CheckboxGroup";
 
 import {
     calculate,
@@ -139,28 +140,13 @@ function HbiView() {
             {/* there is no error-check yet for no boxes ticked, so the default value is just 0 */}
 
             {values.hasComplications === "yes" && (
-        <div className = "question-block">
-            <label>Complication Details:</label>
-            <div className = "checkbox-group">
-                {complicationOptions.map((item) =>(
-                    <label
-                        key = {item}
-                        className = "checkbox-item"
-                        >
-                        <input
-                            type = "checkbox"
-                            checked = {values.complications.includes(item)}
-                            onChange = {() => toggleComplication(item)}
-                        />
-                        {item}
-                    </label>
-                ))}
-            </div>
-
-            <p className = "help-text">
-                Each selected complication adds 1 point
-            </p>
-        </div>
+                <CheckboxGroup
+                    label = "Complication Details: "
+                    options = {complicationOptions}
+                    selectedOptions = {values.complications}
+                    onToggle = {toggleComplication}
+                    helpText = "Each selected complication adds 1 point"
+                    />
             )}
         <button
             className = "calculate-btn"
