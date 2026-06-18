@@ -20,10 +20,17 @@ function MucView() {
     const [result, setResult] = useState(null);
 
     const updateValue = (field, value) => {
-        setValues((current) => ({
-            ...current,
+        const updatedValues = {
+            ...values,
             [field]: value
-        }));
+        };
+
+        const newErrors = validate(updatedValues);
+        const hasErrors = Object.values(newErrors).some(Boolean);
+
+        setValues(updatedValues);
+        setErrors(hasErrors);
+        setResult(hasErrors ? null : calculate(updatedValues));
     };
 
     const handleCalculate = () => {
@@ -35,6 +42,16 @@ function MucView() {
         const score = calculate(values);
         setResult(score);
     };
+
+    const handleReset = () => {
+        setValues({
+            bwt: "",
+            cds: ""
+        });
+
+        setErrors({});
+        setResult(null);
+    }
 
     return (
         <>
@@ -63,8 +80,8 @@ function MucView() {
                 ]}
             />
 
-            <button className = "calculate-btn" onClick = {handleCalculate}>
-                Calculate
+            <button className = "calculate-btn" onClick = {handleReset}>
+                Reset
             </button>
 
             {result !== null && (
