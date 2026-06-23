@@ -21,10 +21,17 @@ function PMayoView() {
     const [result, setResult] = useState(null);
 
     const updateValue = (field, value) => {
-        setValues((current) => ({
-            ...current,
+        const updatedValues = {
+            ...values,
             [field]: value
-        }));
+        };
+
+        const newErrors = validate(updatedValues);
+        const hasErrors = Object.values(newErrors).some(Boolean);
+
+        setValues(updatedValues);
+        setErrors(hasErrors);
+        setResult(hasErrors ? null : calculate(updatedValues));
     };
 
     const handleCalculate = () => {
@@ -34,6 +41,17 @@ function PMayoView() {
         if (Object.values(newErrors).some(Boolean)) return;
 
         setResult(calculate(values))
+    };
+
+    const handleReset = () => {
+        setValues({
+            stoolFrequency: "",
+            rectalBleeding: "",
+            physicianAssessment: "",
+        });
+
+        setErrors({});
+        setResult(null);
     };
 
     return (
@@ -86,8 +104,8 @@ function PMayoView() {
                 ]}
             />
 
-            <button className = "calculate-btn" onClick={handleCalculate}>
-                Calculate
+            <button className = "calculate-btn" onClick={handleReset}>
+                Reset
             </button>
 
             {result !== null && (

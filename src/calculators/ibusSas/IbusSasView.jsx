@@ -24,10 +24,17 @@ function IbusSasView(){
     const [result, setResult] = useState(null);
 
     const updateValue = (field, value) => {
-        setValues((current) => ({
-            ...current,
-            [field]: value,
-        }));
+        const updatedValues = {
+            ...values,
+            [field]: value
+        };
+
+        const newErrors = validate(updatedValues);
+        const hasErrors = Object.values(newErrors).some(Boolean);
+
+        setValues(updatedValues);
+        setErrors(hasErrors);
+        setResult(hasErrors ? null : calculate(updatedValues));
     };
 
     const handleCalculate = () => {
@@ -37,6 +44,18 @@ function IbusSasView(){
         if (Object.values(newErrors).some(Boolean)) return;
 
         setResult(calculate(values));
+    };
+
+    const handleReset = () => {
+        setValues({
+            bwt: "",
+            ifat: "",
+            cds: "",
+            bws: ""
+        });
+
+        setErrors({})
+        setResult(null);
     };
 
     return (
@@ -71,7 +90,7 @@ function IbusSasView(){
             <SelectInput
                 label = "CDS (0-3)"
                 value = {values.cds}
-                onchange = {(value) => updateValue("cds", value)}
+                onChange = {(value) => updateValue("cds", value)}
                 error = {errors.cds}
                 errorMessage = "Please select a value"
                 helpText = "Color Doppler Signal (0 = none, 3 = severe"
@@ -99,8 +118,8 @@ function IbusSasView(){
                 ]}
             />
 
-            <button className = "calculate-btn" onClick = {handleCalculate}>
-                Calculate
+            <button className = "calculate-btn" onClick = {handleReset}>
+                Reset
             </button>
 
             {result !== null && (

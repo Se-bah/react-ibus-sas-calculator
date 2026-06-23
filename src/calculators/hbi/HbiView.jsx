@@ -27,29 +27,48 @@ function HbiView() {
     const [result, setResult] = useState(null);
 
     const updateValue = (field, value) => {
-        setValues((current) => ({
-            ...current,
+        const updatedValues = {
+            ...values,
             [field]: value
-        }));
+        };
+
+        const newErrors = validate(updatedValues);
+        const hasErrors = Object.values(newErrors).some(Boolean);
+
+        setValues(updatedValues);
+        setErrors(newErrors);
+        setResult(hasErrors ? null : calculate(updatedValues));
     };
 
     const updateHasComplications = (value) => {
-        setValues((current) => ({
-            ...current,
+        const updatedValues = {
+            ...values,
             hasComplications: value,
-            complications: values === "yes" ? current.complications : []
-        }));
+            complications: value === "yes" ? values.complications : []
+        };
+
+        const newErrors = validate(updatedValues);
+        const hasErrors = Object.values(newErrors).some(Boolean);
+
+        setValues(updatedValues);
+        setErrors(newErrors);
+        setResult(hasErrors ? null : calculate(updatedValues));
     };
 
     const toggleComplication = (item) => {
-        setValues((current) => {
-            const exists = current.complications.includes(item);
+        const exists = values.complications.includes(item);
 
-            return {
-                ...current,
-                complications: exists ? current.complications.filter ((x) => x !== item) : [...current.complications, item]
-            };
-        });
+        const updatedValues = {
+            ...values,
+            complications: exists ? exists.complications.filter((x) => x !== item)
+                : [...values.complications, item]
+        };
+        const newErrors = validate(updatedValues);
+        const hasErrors = Object.values(newErrors).some(Boolean);
+
+        setValues(updatedValues);
+        setErrors(newErrors);
+        setResult(hasErrors ? null : calculate(updatedValues));
     };
 
     const handleCalculate = () => {
@@ -59,6 +78,20 @@ function HbiView() {
         if (Object.values(newErrors).some(Boolean)) return;
 
         setResult(calculate(values));
+    };
+
+    const handleReset = () => {
+        setValues({
+            wellBeing: "",
+            abdominalPain: "",
+            liquidStools: "",
+            abdominalMass: "",
+            hasComplications: "",
+            complications: []
+        });
+
+        setErrors({});
+        setResult(null);
     };
 
     return (
@@ -148,11 +181,8 @@ function HbiView() {
                     helpText = "Each selected complication adds 1 point"
                     />
             )}
-        <button
-            className = "calculate-btn"
-            onClick = {handleCalculate}
-            >
-            Calculate
+        <button className = "calculate-btn" onClick = {handleReset}>
+            Reset
         </button>
 
             {result !== null && (
