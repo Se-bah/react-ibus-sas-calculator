@@ -24,10 +24,17 @@ function IbusSasView(){
     const [result, setResult] = useState(null);
 
     const updateValue = (field, value) => {
-        setValues((current) => ({
-            ...current,
-            [field]: value,
-        }));
+        const updatedValues = {
+            ...values,
+            [field]: value
+        };
+
+        const newErrors = validate(updatedValues);
+        const hasErrors = Object.values(newErrors).some(Boolean);
+
+        setValues(updatedValues);
+        setErrors(hasErrors);
+        setResult(hasErrors ? null : calculate(updatedValues));
     };
 
     const handleCalculate = () => {
@@ -39,6 +46,18 @@ function IbusSasView(){
         setResult(calculate(values));
     };
 
+    const handleReset = () => {
+        setValues({
+            bwt: "",
+            ifat: "",
+            cds: "",
+            bws: ""
+        });
+
+        setErrors({})
+        setResult(null);
+    };
+
     return (
         <>
             {/* BWT */}
@@ -46,8 +65,6 @@ function IbusSasView(){
                 label = "BWT (mm)"
                 value = {values.bwt}
                 onChange = {(value) => updateValue("bwt", value)}
-                error = {errors.bwt}
-                errorMessage = "Enter a valid BWT value (≥ 0)"
                 helpText = "Enter bowell wall thickness in millimeters (e.g., 3.4)"
                 step = "0.01"
             />
@@ -57,8 +74,6 @@ function IbusSasView(){
                 label = "i-fat (0-2)"
                 value = {values.ifat}
                 onChange = {(value) => updateValue("ifat", value)}
-                error = {errors.ifat}
-                errorMessage = "Please select a value"
                 helpText = "Degree of inflammatory fat (0 = none, 2 = severe)"
                 options = {[
                     { value: "0", label: "0 - none"},
@@ -71,9 +86,7 @@ function IbusSasView(){
             <SelectInput
                 label = "CDS (0-3)"
                 value = {values.cds}
-                onchange = {(value) => updateValue("cds", value)}
-                error = {errors.cds}
-                errorMessage = "Please select a value"
+                onChange = {(value) => updateValue("cds", value)}
                 helpText = "Color Doppler Signal (0 = none, 3 = severe"
                 options = {[
                     { value: "0", label: "0 - absent signal"},
@@ -88,8 +101,6 @@ function IbusSasView(){
                 label = "BWS (0-3)"
                 value = {values.bws}
                 onChange = {(value) => updateValue("bws", value)}
-                error = {errors.bws}
-                errorMessage = "Please select a value"
                 helpText = "Bowel wall stratification (0 = normal, 3 = severe)"
                 options = {[
                     { value: "0", label: "0 - normal, preserved"},
@@ -99,8 +110,8 @@ function IbusSasView(){
                 ]}
             />
 
-            <button className = "calculate-btn" onClick = {handleCalculate}>
-                Calculate
+            <button className = "calculate-btn" onClick = {handleReset}>
+                Reset
             </button>
 
             {result !== null && (

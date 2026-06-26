@@ -21,10 +21,17 @@ function PMayoView() {
     const [result, setResult] = useState(null);
 
     const updateValue = (field, value) => {
-        setValues((current) => ({
-            ...current,
+        const updatedValues = {
+            ...values,
             [field]: value
-        }));
+        };
+
+        const newErrors = validate(updatedValues);
+        const hasErrors = Object.values(newErrors).some(Boolean);
+
+        setValues(updatedValues);
+        setErrors(hasErrors);
+        setResult(hasErrors ? null : calculate(updatedValues));
     };
 
     const handleCalculate = () => {
@@ -36,6 +43,17 @@ function PMayoView() {
         setResult(calculate(values))
     };
 
+    const handleReset = () => {
+        setValues({
+            stoolFrequency: "",
+            rectalBleeding: "",
+            physicianAssessment: "",
+        });
+
+        setErrors({});
+        setResult(null);
+    };
+
     return (
         <>
             {/* Stool frequency */}
@@ -43,8 +61,6 @@ function PMayoView() {
                 label = "Stool Frequency"
                 value = {values.stoolFrequency}
                 onChange = {(value) => updateValue("stoolFrequency", value)}
-                error = {errors.stoolFrequency}
-                errorMessage = "Please select a value"
                 helpText = "Increase in stool frequency (0 = normal, 3 = ≥ 5 stools/day above normal)"
                 options = {[
                     { value: "0", label: "0 - normal" },
@@ -59,8 +75,6 @@ function PMayoView() {
                 label = "Rectal Bleeding"
                 value = {values.rectalBleeding}
                 onChange = {(value) => updateValue("rectalBleeding", value)}
-                error = {errors.rectalBleeding}
-                errorMessage = "Please select a value"
                 helpText = "Severity of rectal bleeding (0 = absent, 3 = blood only)"
                 options = {[
                     { value: "0", label: "0 - absent" },
@@ -75,8 +89,6 @@ function PMayoView() {
                 label = "Physician's Assessment"
                 value = {values.physicianAssessment}
                 onChange = {(value) => updateValue("physicianAssessment", value)}
-                error = {errors.physicianAssessment}
-                errorMessage = "Please select a value"
                 helpText = "Overall disease assessment (0 = normal, 3 = severe disease)"
                 options = {[
                     { value: "0", label: "0 - normal" },
@@ -86,8 +98,8 @@ function PMayoView() {
                 ]}
             />
 
-            <button className = "calculate-btn" onClick={handleCalculate}>
-                Calculate
+            <button className = "calculate-btn" onClick={handleReset}>
+                Reset
             </button>
 
             {result !== null && (

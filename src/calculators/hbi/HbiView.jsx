@@ -27,29 +27,48 @@ function HbiView() {
     const [result, setResult] = useState(null);
 
     const updateValue = (field, value) => {
-        setValues((current) => ({
-            ...current,
+        const updatedValues = {
+            ...values,
             [field]: value
-        }));
+        };
+
+        const newErrors = validate(updatedValues);
+        const hasErrors = Object.values(newErrors).some(Boolean);
+
+        setValues(updatedValues);
+        setErrors(newErrors);
+        setResult(hasErrors ? null : calculate(updatedValues));
     };
 
     const updateHasComplications = (value) => {
-        setValues((current) => ({
-            ...current,
+        const updatedValues = {
+            ...values,
             hasComplications: value,
-            complications: values === "yes" ? current.complications : []
-        }));
+            complications: value === "yes" ? values.complications : []
+        };
+
+        const newErrors = validate(updatedValues);
+        const hasErrors = Object.values(newErrors).some(Boolean);
+
+        setValues(updatedValues);
+        setErrors(newErrors);
+        setResult(hasErrors ? null : calculate(updatedValues));
     };
 
     const toggleComplication = (item) => {
-        setValues((current) => {
-            const exists = current.complications.includes(item);
+        const exists = values.complications.includes(item);
 
-            return {
-                ...current,
-                complications: exists ? current.complications.filter ((x) => x !== item) : [...current.complications, item]
-            };
-        });
+        const updatedValues = {
+            ...values,
+            complications: exists ? exists.complications.filter((x) => x !== item)
+                : [...values.complications, item]
+        };
+        const newErrors = validate(updatedValues);
+        const hasErrors = Object.values(newErrors).some(Boolean);
+
+        setValues(updatedValues);
+        setErrors(newErrors);
+        setResult(hasErrors ? null : calculate(updatedValues));
     };
 
     const handleCalculate = () => {
@@ -61,6 +80,20 @@ function HbiView() {
         setResult(calculate(values));
     };
 
+    const handleReset = () => {
+        setValues({
+            wellBeing: "",
+            abdominalPain: "",
+            liquidStools: "",
+            abdominalMass: "",
+            hasComplications: "",
+            complications: []
+        });
+
+        setErrors({});
+        setResult(null);
+    };
+
     return (
         <>
             {/* General Well-being  */}
@@ -68,8 +101,6 @@ function HbiView() {
             label = "General Well-being"
             value = {values.wellBeing}
             onChange = {(value) => updateValue("wellBeing", value)}
-            error = {errors.wellBeing}
-            errorMessage = "Please select a value"
             helpText = "(0 = excellent, 4 = terrible)"
             options = {[
                 { value: "0", label: "0 - excellent" },
@@ -85,8 +116,6 @@ function HbiView() {
             label = "Abdominal Pain"
             value = {values.abdominalPain}
             onChange = {(value) => updateValue("abdominalPain", value)}
-            error = {errors.abdominalPain}
-            errorMessage = "Please select a value"
             helpText = "Level of abdominal pain (0 = none, 3 = severe)"
             options = {[
                 { value: "0", label: "0 - none" },
@@ -101,8 +130,6 @@ function HbiView() {
             label = "Number of Liquid Stools per day"
             value = {values.liquidStools}
             onChange = {(value) => updateValue("liquidStools", value)}
-            error = {errors.liquidStools}
-            errorMessage = "Enter a valid number (≥ 0)"
             helpText = "Enter a number of Liquid Stools per day (e.g., 3)"
         />
 
@@ -111,8 +138,6 @@ function HbiView() {
             label = "Abdominal Mass"
             value = {values.abdominalMass}
             onChange = {(value) => updateValue("abdominalMass", value)}
-            error = {errors.abdominalMass}
-            errorMessage = "Please select a value"
             helpText = "Abdominal mass on examination (0 = absent, 3 = definite and tender)"
             options = {[
                 { value: "0", label: "0 - absent" },
@@ -127,8 +152,6 @@ function HbiView() {
             label = "Complications"
             value = {values.hasComplications}
             onChange = {updateHasComplications}
-            erorr = {errors.hasComplications}
-            errorMessage = "Please select a value"
             helpText = "NO = 0 points added, YES = choose complications below"
             options = {[
                 { value: "no", label: "No" },
@@ -148,11 +171,8 @@ function HbiView() {
                     helpText = "Each selected complication adds 1 point"
                     />
             )}
-        <button
-            className = "calculate-btn"
-            onClick = {handleCalculate}
-            >
-            Calculate
+        <button className = "calculate-btn" onClick = {handleReset}>
+            Reset
         </button>
 
             {result !== null && (
