@@ -101,8 +101,6 @@ function HbiView() {
             label = "General Well-being"
             value = {values.wellBeing}
             onChange = {(value) => updateValue("wellBeing", value)}
-            error = {errors.wellBeing}
-            errorMessage = "Please select a value"
             helpText = "(0 = excellent, 4 = terrible)"
             options = {[
                 { value: "0", label: "0 - excellent" },
@@ -118,8 +116,6 @@ function HbiView() {
             label = "Abdominal Pain"
             value = {values.abdominalPain}
             onChange = {(value) => updateValue("abdominalPain", value)}
-            error = {errors.abdominalPain}
-            errorMessage = "Please select a value"
             helpText = "Level of abdominal pain (0 = none, 3 = severe)"
             options = {[
                 { value: "0", label: "0 - none" },
@@ -134,8 +130,6 @@ function HbiView() {
             label = "Number of Liquid Stools per day"
             value = {values.liquidStools}
             onChange = {(value) => updateValue("liquidStools", value)}
-            error = {errors.liquidStools}
-            errorMessage = "Enter a valid number (≥ 0)"
             helpText = "Enter a number of Liquid Stools per day (e.g., 3)"
         />
 
@@ -144,8 +138,6 @@ function HbiView() {
             label = "Abdominal Mass"
             value = {values.abdominalMass}
             onChange = {(value) => updateValue("abdominalMass", value)}
-            error = {errors.abdominalMass}
-            errorMessage = "Please select a value"
             helpText = "Abdominal mass on examination (0 = absent, 3 = definite and tender)"
             options = {[
                 { value: "0", label: "0 - absent" },
@@ -160,8 +152,6 @@ function HbiView() {
             label = "Complications"
             value = {values.hasComplications}
             onChange = {updateHasComplications}
-            erorr = {errors.hasComplications}
-            errorMessage = "Please select a value"
             helpText = "NO = 0 points added, YES = choose complications below"
             options = {[
                 { value: "no", label: "No" },

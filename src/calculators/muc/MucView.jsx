@@ -60,8 +60,6 @@ function MucView() {
             label = "BWT (mm)"
             value = {values.bwt}
             onChange = {(value) => updateValue("bwt", value)}
-            error =  {errors.bwt}
-            errorMessage = "Enter a valid BWT value (≥ 0)"
             helpText = "Bowel wall thickness in millimeters."
             step = "0.01"
             />
@@ -71,8 +69,6 @@ function MucView() {
                 label = "CDS"
                 value = {values.cds}
                 onChange = {(value) => updateValue("cds", value)}
-                error = {errors.cds}
-                errorMessage = "Please select a CDS value"
                 helpText = "Color Doppler Signal."
                 options = {[
                     { value: "0", label: "0 - absent" },

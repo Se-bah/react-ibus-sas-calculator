@@ -3,8 +3,6 @@ export default function SelectInput ({
     value,
     onChange,
     options,
-    error,
-    errorMessage,
     helpText
  }) {
     return (
@@ -14,7 +12,6 @@ export default function SelectInput ({
             <select
                 value = {value}
                 onChange = {(e) => onChange (e.target.value)}
-                className = {error ? "input-error" : ""}
             >
                 <option value = "">Select</option>
 
@@ -24,8 +21,10 @@ export default function SelectInput ({
                     </option>
                 ))}
                 </select>
-
+            {/* Error message is no longer needed in the current live-update score state
             {error && <p className = "error-text">{errorMessage}</p>}
+            */}
+
             {helpText && <p className = "help-text">{helpText}</p>}
 
         </div>
